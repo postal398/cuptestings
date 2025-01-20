@@ -1,22 +1,27 @@
-package test
+package com.example.cupcake.test
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.testing.TestNavHostController
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.navigation.compose.ComposeNavigator
-import androidx.navigation.testing.TestNavHostController
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.cupcake.CupcakeApp
 import com.example.cupcake.CupcakeScreen
-import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import org.junit.Assert.assertEquals
+import test.assertCurrentRouteName
 
-class CupcakeScreenNavigationTest { // Создаем тестовый класс
+
+@RunWith(AndroidJUnit4::class)
+class CupcakeScreenNavigatorTest {
 
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
-
 
     private lateinit var navController: TestNavHostController
 
@@ -28,9 +33,10 @@ class CupcakeScreenNavigationTest { // Создаем тестовый клас�
             }
             CupcakeApp(navController = navController)
         }
-        @Test
-        fun cupcakeNavHost_verifyStartDestination() {
-            assertEquals(CupcakeScreen.Start.name, navController.currentBackStackEntry?.destination?.route)
-        }
+    }
+
+    @Test
+    fun cupcakeNavHost_verifyStartDestination() {
+        navController.assertCurrentRouteName(CupcakeScreen.Start.name)
     }
 }
