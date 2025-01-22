@@ -13,8 +13,11 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.performClick
 import org.junit.Assert.assertEquals
 import test.assertCurrentRouteName
+import test.onNodeWithStringId
 
 
 @RunWith(AndroidJUnit4::class)
@@ -39,4 +42,16 @@ class CupcakeScreenNavigatorTest {
     fun cupcakeNavHost_verifyStartDestination() {
         navController.assertCurrentRouteName(CupcakeScreen.Start.name)
     }
+    @Test
+    fun cupcakeNavHost_verifyBackNavigationNotShownOnStartOrderScreen() {
+        val backText = composeTestRule.activity.getString(com.example.cupcake.R.string.back_button)
+        composeTestRule.onNodeWithContentDescription(backText).assertDoesNotExist()
+    }
+    @Test
+    fun cupcakeNavHost_clickOneCupcake_navigatesToSelectFlavorScreen() {
+        composeTestRule.onNodeWithStringId(com.example.cupcake.R.string.one_cupcake)
+            .performClick()
+        navController.assertCurrentRouteName(CupcakeScreen.Flavor.name)
+    }
+
 }
