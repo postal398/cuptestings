@@ -56,41 +56,64 @@ class CupcakeScreenNavigatorTest {
         return formatter.format(calendar.time)
     }
 
+    private fun performNavigateUp() {
+        val backText = composeTestRule.activity.getString(com.example.cupcake.R.string.back_button)
+        composeTestRule.onNodeWithContentDescription(backText).performClick()
+    }
+
 
 
     @Test
     fun cupcakeNavHost_verifyStartDestination() {
+        // Проверяем, что начальный экран приложения — это CupcakeScreen.Start.
+        // Тест убеждается, что текущий маршрут в NavController равен "Start".
         navController.assertCurrentRouteName(CupcakeScreen.Start.name)
     }
+
     @Test
     fun cupcakeNavHost_verifyBackNavigationNotShownOnStartOrderScreen() {
+        // Получаем текст кнопки "Назад" из строковых ресурсов.
         val backText = composeTestRule.activity.getString(com.example.cupcake.R.string.back_button)
+        // Проверяем, что кнопка "Назад" не отображается на начальном экране (CupcakeScreen.Start).
+        // Это логично, так как на первом экране некуда возвращаться.
         composeTestRule.onNodeWithContentDescription(backText).assertDoesNotExist()
     }
+
     @Test
     fun cupcakeNavHost_clickOneCupcake_navigatesToSelectFlavorScreen() {
+        // Находим элемент интерфейса с текстом "One cupcake" (один кекс) и имитируем клик по нему.
         composeTestRule.onNodeWithStringId(com.example.cupcake.R.string.one_cupcake)
             .performClick()
+        // Проверяем, что после клика произошел переход на экран выбора вкуса (CupcakeScreen.Flavor).
         navController.assertCurrentRouteName(CupcakeScreen.Flavor.name)
     }
+
     @Test
     fun cupcakeNavHost_clickOneCupcake_navigatesToPickupScreen() {
+        // Вызываем функцию navigateToFlavorScreen(), которая имитирует переход на экран выбора вкуса.
         navigateToFlavorScreen()
+        // Находим кнопку "Next" (Далее) на экране выбора вкуса и имитируем клик по ней.
         composeTestRule.onNodeWithStringId(com.example.cupcake.R.string.next)
             .performClick()
+        // Проверяем, что после клика произошел переход на экран выбора даты (CupcakeScreen.Pickup).
         navController.assertCurrentRouteName(CupcakeScreen.Pickup.name)
     }
+
     @Test
     fun cupcakeNavHost_clickOneCupcake_navigatesToSummaryScreen() {
+        // Вызываем функцию navigateToFlavorScreen(), которая имитирует переход на экран выбора вкуса.
         navigateToFlavorScreen()
+        // Находим кнопку "Next" (Далее) на экране выбора вкуса и имитируем клик по ней.
         composeTestRule.onNodeWithStringId(com.example.cupcake.R.string.next)
             .performClick()
+        // Находим элемент интерфейса с текстом выбранной даты (например, "Today") и имитируем выбор даты.
         composeTestRule.onNodeWithText(getFormattedDate())
             .performClick()
+        // Находим кнопку "Next" (Далее) на экране выбора даты и имитируем клик по ней.
         composeTestRule.onNodeWithStringId(com.example.cupcake.R.string.next)
             .performClick()
+        // Проверяем, что после всех действий произошел переход на экран подтверждения заказа (CupcakeScreen.Summary).
         navController.assertCurrentRouteName(CupcakeScreen.Summary.name)
     }
-
 
 }
