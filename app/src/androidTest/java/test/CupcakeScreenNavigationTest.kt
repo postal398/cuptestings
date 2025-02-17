@@ -61,6 +61,11 @@ class CupcakeScreenNavigatorTest {
         composeTestRule.onNodeWithContentDescription(backText).performClick()
     }
 
+    private fun performCancelButton() {
+        val cancelButton = composeTestRule.activity.getString(com.example.cupcake.R.string.cancel)
+        composeTestRule.onNodeWithText(cancelButton).performClick()
+    }
+
 
 
     @Test
@@ -116,4 +121,88 @@ class CupcakeScreenNavigatorTest {
         navController.assertCurrentRouteName(CupcakeScreen.Summary.name)
     }
 
+    //Проверяем что при нажатии стрелки назад в экране вкуса оказываемся на начальном экране
+    @Test
+    fun cupcakeNavHost_clickBackOnChooseFlavorScreen() {
+        navigateToFlavorScreen()
+        performNavigateUp()
+        navController.assertCurrentRouteName(CupcakeScreen.Start.name)
+    }
+
+    //Проверяем что при нажатии кнопки отмена в экране вкуса оказываемся на начальном экране
+    @Test
+    fun cupcakeNavHost_clickCancelOnChooseFlavorScreen() {
+        navigateToFlavorScreen()
+        performCancelButton()
+        navController.assertCurrentRouteName(CupcakeScreen.Start.name)
+    }
+
+    //Проверяем переход на Пикап Скрин
+    @Test
+    fun cupcakeNavHost_navigateToPickupScreen() {
+        navigateToFlavorScreen()
+        // Находим кнопку "Next" (Далее) на экране выбора вкуса и имитируем клик по ней.
+        composeTestRule.onNodeWithStringId(com.example.cupcake.R.string.next)
+            .performClick()
+        navController.assertCurrentRouteName(CupcakeScreen.Pickup.name)
+    }
+
+    //Navigating to the Flavor screen by clicking the Up button from the Pickup screen
+    @Test
+    fun cupcakeNavHost_clickUpOnPickupScreen() {
+        navigateToFlavorScreen()
+        // Находим кнопку "Next" (Далее) на экране выбора вкуса и имитируем клик по ней.
+        composeTestRule.onNodeWithStringId(com.example.cupcake.R.string.next)
+            .performClick()
+        performNavigateUp()
+        navController.assertCurrentRouteName(CupcakeScreen.Flavor.name)
+    }
+
+    //Navigating to the Start screen by clicking the Cancel button from the Pickup screen
+    @Test
+    fun cupcakeNavHost_clickCancelInPickupScreen() {
+        navigateToFlavorScreen()
+        // Находим кнопку "Next" (Далее) на экране выбора вкуса и имитируем клик по ней.
+        composeTestRule.onNodeWithStringId(com.example.cupcake.R.string.next)
+            .performClick()
+        performCancelButton()
+        navController.assertCurrentRouteName(CupcakeScreen.Start.name)
+    }
+
+    //Navigating to the Summary screen
+    @Test
+    fun cupcakeNavHost_navigatesToSummaryScreen() {
+        // Вызываем функцию navigateToFlavorScreen(), которая имитирует переход на экран выбора вкуса.
+        navigateToFlavorScreen()
+        // Находим кнопку "Next" (Далее) на экране выбора вкуса и имитируем клик по ней.
+        composeTestRule.onNodeWithStringId(com.example.cupcake.R.string.next)
+            .performClick()
+        // Находим элемент интерфейса с текстом выбранной даты (например, "Today") и имитируем выбор даты.
+        composeTestRule.onNodeWithText(getFormattedDate())
+            .performClick()
+        // Находим кнопку "Next" (Далее) на экране выбора даты и имитируем клик по ней.
+        composeTestRule.onNodeWithStringId(com.example.cupcake.R.string.next)
+            .performClick()
+        // Проверяем, что после всех действий произошел переход на экран подтверждения заказа (CupcakeScreen.Summary).
+        navController.assertCurrentRouteName(CupcakeScreen.Summary.name)
+    }
+
+    //Navigating to the Start screen by clicking the Cancel button from the Summary screen
+    @Test
+    fun cupcakeNavHost_clickOneCupcake_navigatesToStartScreenByCancelFromSummary() {
+        // Вызываем функцию navigateToFlavorScreen(), которая имитирует переход на экран выбора вкуса.
+        navigateToFlavorScreen()
+        // Находим кнопку "Next" (Далее) на экране выбора вкуса и имитируем клик по ней.
+        composeTestRule.onNodeWithStringId(com.example.cupcake.R.string.next)
+            .performClick()
+        // Находим элемент интерфейса с текстом выбранной даты (например, "Today") и имитируем выбор даты.
+        composeTestRule.onNodeWithText(getFormattedDate())
+            .performClick()
+        // Находим кнопку "Next" (Далее) на экране выбора даты и имитируем клик по ней.
+        composeTestRule.onNodeWithStringId(com.example.cupcake.R.string.next)
+            .performClick()
+        performCancelButton()
+        // Проверяем, что после всех действий произошел переход на экран старта заказа (CupcakeScreen.Start).
+        navController.assertCurrentRouteName(CupcakeScreen.Start.name)
+    }
 }
