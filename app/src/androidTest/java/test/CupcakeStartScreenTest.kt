@@ -1,6 +1,7 @@
 package test
 
 import androidx.activity.ComponentActivity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
@@ -20,9 +21,9 @@ class CupcakeStartScreenTest {
     fun startOrderScreen_verifyContent() {
         // Given list of options
         val quantityOfCupcakes = listOf(
-            Pair(1, 2),   // 1 кекс за 2 бакса
-            Pair(6, 12),  // 6 кексов за 12 баксов
-            Pair(12, 24)  // 12 кексов за 24 бакса
+            Pair(R.string.one_cupcake, 1),
+            Pair(R.string.six_cupcakes, 6),
+            Pair(R.string.twelve_cupcakes, 12)
         )
 
         // When SelectOptionScreen is loaded
@@ -30,10 +31,12 @@ class CupcakeStartScreenTest {
             StartOrderScreen(quantityOfCupcakes, {})
         }
 
-        // Есть надпись Order Cupccakes
-        composeTestRule.onNodeWithText("Order Cupcakes").assertIsDisplayed()
+        // Есть надпись Order Cupcakes
+        val orderCupcakesText = composeTestRule.activity.getString(R.string.order_cupcakes)
+        composeTestRule.onNodeWithText(orderCupcakesText).assertIsDisplayed()
 
         // Есть кнопка - One Cupcake
-        composeTestRule.onNodeWithText("One Сupcake").assertIsEnabled()
+        val oneCupcakeText = composeTestRule.activity.getString(R.string.one_cupcake)
+        composeTestRule.onNodeWithText(oneCupcakeText).assertIsEnabled()
     }
 }
