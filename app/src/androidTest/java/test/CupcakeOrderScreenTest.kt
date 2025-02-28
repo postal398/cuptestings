@@ -2,9 +2,11 @@ package test
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import com.example.cupcake.R
 import com.example.cupcake.ui.SelectOptionScreen
 import org.junit.Rule
@@ -21,17 +23,17 @@ class CupcakeOrderScreenTest {
         // And subtotal
         val subtotal = "$100"
 
-        // When SelectOptionScreen is loaded
+        // Тут сперва запускается экран
         composeTestRule.setContent {
             SelectOptionScreen(subtotal = subtotal, options = flavors)
         }
 
-        // Then all the options are displayed on the screen.
+        // Проверка что отображены все вкусы
         flavors.forEach { flavor ->
             composeTestRule.onNodeWithText(flavor).assertIsDisplayed()
         }
 
-        // And then the subtotal is displayed correctly.
+        // И ценник совпадает с тем что передали в переменную сабтотал
         composeTestRule.onNodeWithText(
             composeTestRule.activity.getString(
                 R.string.subtotal_price,
@@ -41,5 +43,10 @@ class CupcakeOrderScreenTest {
 
         // And then the next button is disabled
         composeTestRule.onNodeWithStringId(R.string.next).assertIsNotEnabled()
+
+        // А теперь пикаем вкус и ещё раз проверяем
+        composeTestRule.onNodeWithText("Vanilla").performClick()
+        composeTestRule.onNodeWithStringId(R.string.next).assertIsEnabled()
+
     }
 }

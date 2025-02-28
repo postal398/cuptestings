@@ -15,6 +15,7 @@
  */
 package com.example.cupcake.ui
 
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -30,6 +31,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -52,6 +54,14 @@ fun StartOrderScreen(
     onNextButtonClicked: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
+
+    DisposableEffect(Unit) {
+        Log.d("SCREEN", "Order Start Screen: ENTERED")
+        onDispose {
+            Log.d("SCREEN", "Order Start Screen: EXITED")
+        }
+    }
+
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.SpaceBetween

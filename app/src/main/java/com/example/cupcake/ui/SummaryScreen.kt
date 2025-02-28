@@ -15,6 +15,7 @@
  */
 package com.example.cupcake.ui
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,6 +29,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -52,6 +54,13 @@ fun OrderSummaryScreen(
     onSendButtonClicked: (String, String) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    DisposableEffect(Unit) {
+        Log.d("SCREEN", "Summary Screen: ENTERED")
+        onDispose {
+            Log.d("SCREEN", "Summary Option Screen: EXITED")
+        }
+    }
+
     val resources = LocalContext.current.resources
 
     val numberOfCupcakes = resources.getQuantityString(

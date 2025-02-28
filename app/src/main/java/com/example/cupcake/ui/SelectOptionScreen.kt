@@ -15,6 +15,7 @@
  */
 package com.example.cupcake.ui
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,6 +29,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -47,6 +49,7 @@ import com.example.cupcake.ui.theme.CupcakeTheme
  * [onCancelButtonClicked] lambda that cancels the order when user clicks cancel and
  * [onNextButtonClicked] lambda that triggers the navigation to next screen
  */
+
 @Composable
 fun SelectOptionScreen(
     subtotal: String,
@@ -57,6 +60,13 @@ fun SelectOptionScreen(
     modifier: Modifier = Modifier
 ) {
     var selectedValue by rememberSaveable { mutableStateOf("") }
+
+    DisposableEffect(Unit) {
+        Log.d("SCREEN", "Select Option Screen: ENTERED")
+        onDispose {
+            Log.d("SCREEN", "Select Option Screen: EXITED")
+        }
+    }
 
     Column(
         modifier = modifier,
